@@ -1,74 +1,31 @@
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from './react';
+import ReactDOM from './react-dom';
 
 class Counter extends React.Component {
-  static defaultProps = {
-    name: '珠峰架构'
-  }
+
   constructor(props) {
     super(props);
-    this.state = { number: 0 };
-    console.log('Counter 1.constructor');
+    this.state = {
+      list:['A','B','C','D','E','F'],
+    }
   }
-  UNSAFE_componentWillMount() {
-    console.log('Counter 2.componentWillMount');
-  }
-  componentDidMount() {
-    console.log('Counter 4.componentDidMount');
-  }
-  handleClick = () => {
-    setTimeout(() => {
-      ReactDOM.unstable_batchedUpdates(() => {
-        this.setState({ number: this.state.number + 1 })
-        console.log(this.state.number);
-        this.setState({ number: this.state.number + 1 })
-        console.log(this.state.number);
-      });
-    });
-
-  }
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('Counter 5.shouldComponentUpdate');
-    return nextState.number % 2 === 0;
-  }
-  UNSAFE_componentWillUpdate() {
-    console.log('Counter 6.componentWillUpdate');
-  }
-  componentDidUpdate(newProps, newState) {
-    console.log('Counter 7.componentDidUpdate');
+  handleClick=()=>{
+    this.setState({
+      list:['A','C','E','B','G']
+    })
   }
   render() {
-    console.log('Counter 3.render');
     return (
-      <div>
-        <p>{this.state.number}</p>
-        {this.state.number === 4 ? null : <ChildCounter count={this.state.number} />}
-        <button onClick={this.handleClick}>+</button>
-      </div>
+     <React.Fragment>
+       <ul>
+         {
+           this.state.list.map(item => <li key={item}>{item}</li>)
+         }
+       </ul>
+       <button onClick={this.handleClick}>click</button>
+     </React.Fragment>
     )
-  }
-}
-class ChildCounter extends React.Component {
-  UNSAFE_componentWillMount() {
-    console.log('ChildCounter 1.componentWillMount');
-  }
-  componentDidMount() {
-    console.log('ChildCounter 3.componentDidMount');
-  }
-  UNSAFE_componentWillReceiveProps(newProps) {
-    console.log('ChildCounter 4.UNSAFE_componentWillReceiveProps');
-  }
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('ChildCounter 5.shouldComponentUpdate');
-    return nextProps.count % 3 === 0;
-  }
-  render() {
-    console.log('ChildCounter 2.render ');
-    return <div>{this.props.count}</div>
-  }
-  componentWillUnmount() {
-    console.log('ChildCounter 6.componentWillUnmount ');
   }
 }
 ReactDOM.render(<Counter />, document.getElementById('root'));
